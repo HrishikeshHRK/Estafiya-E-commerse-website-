@@ -18,13 +18,14 @@ for (var i = 0; i < updatebtns.length; i++){
 /* defining this function with 2 parameterfs : productId and action */
 function updateUserOrder(productId, action){
     console.log('User is authenticated, sending data...')
-    var url = '/update_item/'
+    var url = '/update_item'
 
     /* create and use the fetch API to sent a POST request */
     fetch(url,{
         method:'POST',
         headers:{
             'Content-Type':'application/json',
+            'X-CSRFToken':csrftoken,
         },
         body:JSON.stringify({'productId': productId, 'action':action})  /* converting and sending our productId and action as a json object */
     })
@@ -32,6 +33,6 @@ function updateUserOrder(productId, action){
         return response.json();
     })
     .then((data)=>{
-        console.log('Data:',data)
+        console.log('data:' , data)
     });
 }
