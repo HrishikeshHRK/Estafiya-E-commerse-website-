@@ -8,12 +8,36 @@ for (var i = 0; i < updatebtns.length; i++){
 
         /* checking user status on click */
         console.log('USER:', user)
-        if (user == 'AnonymousUser'){
-            console.log('User is not authenticated' )
+        if (user === 'AnonymousUser'){
+            addCookieItem(productId, action)
         }else{
             updateUserOrder(productId, action) /* passing the function updateuserorder so it gets called when the user is logged in*/
         }
     })
+}
+
+function addCookieItem(productId, action){
+    console.log('Not logged in...')
+
+    if(action == 'add'){
+        if(cart[productId] == undefined ){
+            cart[productId] = {'quantity': 1}
+        }else{
+            cart[productId]['quantity']+= 1
+        }
+    }
+
+    if(action == 'remove'){
+        cart[productId]['quantity']-= 1
+
+        if(cart[productId]['quantity'] <= 0){
+            console.log('remove Item')
+            delete cart[productId]
+        }
+    }
+    console.log('Cart:' , cart)
+    document.cookie = 'cart=' + JSON.stringify(cart)+";domain=;path=/"
+    location.reload()
 }
 /* defining this function with 2 parameterfs : productId and action */
 function updateUserOrder(productId, action){
